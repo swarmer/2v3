@@ -38,6 +38,44 @@
     import a.b.c.m2
     from . import m2
 
+### Unbound methods
+В Python3 нет непривязанных методов, только функции и привязанные методы:
+
+    #python 2
+    class A(object):
+        def f(self):
+            return self
+
+    >>> type(A.f)
+    instancemethod
+
+    >>> type(A().f)
+    instancemethod
+
+    >>> A().f()
+    <__main__.A at 0x7f562109a190>
+
+    >>> A.f(4)
+    TypeError: unbound method f() must be called with A instance as first argument (got int instance instead)
+
+
+    #python 3
+    class A:
+        def f(self):
+            return self
+
+    >>> type(A.f)
+    function
+
+    >>> type(A().f)
+    method
+
+    >>> A().f()
+    <__main__.A at 0x7f5589b76e48>
+
+    >>> A.f(4)
+    4
+
 
 ## Изменено
 
