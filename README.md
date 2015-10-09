@@ -108,6 +108,41 @@
     super(C, self).__init__()
     super().__init__()
 
+### Метаклассы
+Метакласс теперь объявляется ключевым аргументом `metaclass` вместе с родительскими классами.
+
+Весёлый факт: вместе с ними можно передавать любые ключевые аргументы и они будут переданы в конструктор метакласса.
+
+Также у метаклассов может быть поле `__prepare__` и если оно есть, определение класса будет выполняться
+в контексте dict или совместимого объекта, возвращённого `__prepare__`:
+
+    # python 3
+    class AnswerMeta(type):
+        @staticmethod
+        def __new__(cls, name, bases, namespace, **kwargs):
+            print('__new__ called with kwargs: %s' % kwargs)
+            return super().__new__(cls, name, bases, namespace)
+    
+        def __init__(self, name, bases, namespace, **kwargs):
+            print('__init__ called with kwargs: %s' % kwargs)
+            super().__init__(name, bases, namespace)
+    
+        @staticmethod
+        def __prepare__(name, bases, **kwargs):
+            print('__prepare__ called with kwargs: %s' % kwargs)
+            return {'ANSWER': 42}
+    
+    class Universe(metaclass=AnswerMeta, hello='world'):
+        answer = ANSWER
+    
+    print(Universe.answer, Universe.ANSWER)
+    
+    # output:
+    __prepare__ called with kwargs: {'hello': 'world'}
+    __new__ called with kwargs: {'hello': 'world'}
+    __init__ called with kwargs: {'hello': 'world'}
+    42 42
+
 ### print
 `print` как ключевое слово удалён, вместо него добавлена встроенная функция:
 
