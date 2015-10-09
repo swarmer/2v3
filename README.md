@@ -100,9 +100,11 @@ method
 ### Сравнение несовместимых типов
 Несовместимые типы (например, int и str или list и set) теперь бросают исключение при попытке сравнения:
     
-    #python 3
-    >>> 3 < 'abc'
-    TypeError: unorderable types: int() < str()
+```python
+#python 3
+>>> 3 < 'abc'
+TypeError: unorderable types: int() < str()
+```
 
 ### super
 `super` теперь умеет угадывать свои аргументы при помощи чёрной магии со стеком:
@@ -211,7 +213,7 @@ __init__ called with kwargs: {'hello': 'world'}
 ### Файловые дескрипторы
 С версии 3.4 новые файловые дескрипторы по умолчанию не наследуются дочерними процессами.
 
-### Переименованы некоторые модули
+### Переименованы некоторые классы и модули
 `StringIO.StringIO` -> `io.StringIO`
 `SimpleHTTPServer` -> `http.server`
 и т.д.
