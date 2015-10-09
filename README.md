@@ -168,6 +168,27 @@
 С помощью `nonlocal x` можно указать в замыкании, что мы хотим изменять
 переменную во внешней функции вместо создания новой локальной.
 
+### raise from
+Можно указать одно исключение как причину другого при помощи конструкции `raise ... from ...`:
+
+    >>> class DatabaseError(Exception):
+    ...   pass
+    ... 
+    >>> try:
+    ...   raise psycopg2.IntegrityError(':(')
+    ... except psycopg2.IntegrityError as ierr:
+    ...   raise DatabaseError('Cannot insert data') from ierr
+    ... 
+    Traceback (most recent call last):
+      File "<stdin>", line 2, in <module>
+    psycopg2.IntegrityError: :(
+    
+    The above exception was the direct cause of the following exception:
+    
+    Traceback (most recent call last):
+      File "<stdin>", line 4, in <module>
+    __main__.DatabaseError: Cannot insert data
+
 ### importlib
 Новый в 3.1 модуль, предоставляющий доступ ко внутренностям реализации импортов.
 
