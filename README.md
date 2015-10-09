@@ -27,54 +27,58 @@
 В Python 3 есть только один `int`, который может быть сколь угодно большим.
 
 ### Неявные относительные импорты
-    # a/b/c/m1.py
+```python
+# a/b/c/m1.py
 
-    # python2
-    import a.b.c.m2
-    from . import m2
-    import m2
+# python2
+import a.b.c.m2
+from . import m2
+import m2
 
-    #python3
-    import a.b.c.m2
-    from . import m2
+#python3
+import a.b.c.m2
+from . import m2
+```
 
 ### Unbound methods
 В Python3 нет непривязанных методов, только функции и привязанные методы:
 
-    #python 2
-    class A(object):
-        def f(self):
-            return self
+```python
+#python 2
+class A(object):
+    def f(self):
+        return self
 
-    >>> type(A.f)
-    instancemethod
+>>> type(A.f)
+instancemethod
 
-    >>> type(A().f)
-    instancemethod
+>>> type(A().f)
+instancemethod
 
-    >>> A().f()
-    <__main__.A at 0x7f562109a190>
+>>> A().f()
+<__main__.A at 0x7f562109a190>
 
-    >>> A.f(4)
-    TypeError: unbound method f() must be called with A instance as first argument (got int instance instead)
+>>> A.f(4)
+TypeError: unbound method f() must be called with A instance as first argument (got int instance instead)
 
 
-    #python 3
-    class A:
-        def f(self):
-            return self
+#python 3
+class A:
+    def f(self):
+        return self
 
-    >>> type(A.f)
-    function
+>>> type(A.f)
+function
 
-    >>> type(A().f)
-    method
+>>> type(A().f)
+method
 
-    >>> A().f()
-    <__main__.A at 0x7f5589b76e48>
+>>> A().f()
+<__main__.A at 0x7f5589b76e48>
 
-    >>> A.f(4)
-    4
+>>> A.f(4)
+4
+```
 
 
 ## Изменено
@@ -83,11 +87,13 @@
 В Python 3 оператор `/` всегда возвращает float,
 а для целочисленного деления нужно использовать оператор `//`
 
-    # python 3
-    >>> 8 / 2
-    4.0
-    >>> 8 // 2
-    4
+```python
+# python 3
+>>> 8 / 2
+4.0
+>>> 8 // 2
+4
+```
 
 Это поведение можно включить в Python 2 при помощи `from __future__ import division`
 
@@ -101,12 +107,14 @@
 ### super
 `super` теперь умеет угадывать свои аргументы при помощи чёрной магии со стеком:
 
-    # python 2
-    super(C, self).__init__()
+```python
+# python 2
+super(C, self).__init__()
 
-    # python 3
-    super(C, self).__init__()
-    super().__init__()
+# python 3
+super(C, self).__init__()
+super().__init__()
+```
 
 ### Метаклассы
 Метакласс теперь объявляется ключевым аргументом `metaclass` вместе с родительскими классами.
@@ -116,32 +124,34 @@
 Также у метаклассов может быть поле `__prepare__` и если оно есть, определение класса будет выполняться
 в контексте dict или совместимого объекта, возвращённого `__prepare__`:
 
-    # python 3
-    class AnswerMeta(type):
-        @staticmethod
-        def __new__(cls, name, bases, namespace, **kwargs):
-            print('__new__ called with kwargs: %s' % kwargs)
-            return super().__new__(cls, name, bases, namespace)
-    
-        def __init__(self, name, bases, namespace, **kwargs):
-            print('__init__ called with kwargs: %s' % kwargs)
-            super().__init__(name, bases, namespace)
-    
-        @staticmethod
-        def __prepare__(name, bases, **kwargs):
-            print('__prepare__ called with kwargs: %s' % kwargs)
-            return {'ANSWER': 42}
-    
-    class Universe(metaclass=AnswerMeta, hello='world'):
-        answer = ANSWER
-    
-    print(Universe.answer, Universe.ANSWER)
-    
-    # output:
-    __prepare__ called with kwargs: {'hello': 'world'}
-    __new__ called with kwargs: {'hello': 'world'}
-    __init__ called with kwargs: {'hello': 'world'}
-    42 42
+```python
+# python 3
+class AnswerMeta(type):
+    @staticmethod
+    def __new__(cls, name, bases, namespace, **kwargs):
+        print('__new__ called with kwargs: %s' % kwargs)
+        return super().__new__(cls, name, bases, namespace)
+
+    def __init__(self, name, bases, namespace, **kwargs):
+        print('__init__ called with kwargs: %s' % kwargs)
+        super().__init__(name, bases, namespace)
+
+    @staticmethod
+    def __prepare__(name, bases, **kwargs):
+        print('__prepare__ called with kwargs: %s' % kwargs)
+        return {'ANSWER': 42}
+
+class Universe(metaclass=AnswerMeta, hello='world'):
+    answer = ANSWER
+
+print(Universe.answer, Universe.ANSWER)
+
+# output:
+__prepare__ called with kwargs: {'hello': 'world'}
+__new__ called with kwargs: {'hello': 'world'}
+__init__ called with kwargs: {'hello': 'world'}
+42 42
+```
 
 ### print
 `print` как ключевое слово удалён, вместо него добавлена встроенная функция:
@@ -216,23 +226,25 @@
 ### raise from
 Можно указать одно исключение как причину другого при помощи конструкции `raise ... from ...`:
 
-    >>> class DatabaseError(Exception):
-    ...   pass
-    ... 
-    >>> try:
-    ...   raise psycopg2.IntegrityError(':(')
-    ... except psycopg2.IntegrityError as ierr:
-    ...   raise DatabaseError('Cannot insert data') from ierr
-    ... 
-    Traceback (most recent call last):
-      File "<stdin>", line 2, in <module>
-    psycopg2.IntegrityError: :(
-    
-    The above exception was the direct cause of the following exception:
-    
-    Traceback (most recent call last):
-      File "<stdin>", line 4, in <module>
-    __main__.DatabaseError: Cannot insert data
+```python
+>>> class DatabaseError(Exception):
+...   pass
+... 
+>>> try:
+...   raise psycopg2.IntegrityError(':(')
+... except psycopg2.IntegrityError as ierr:
+...   raise DatabaseError('Cannot insert data') from ierr
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+psycopg2.IntegrityError: :(
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+__main__.DatabaseError: Cannot insert data
+```
 
 ### importlib
 Новый в 3.1 модуль, предоставляющий доступ ко внутренностям реализации импортов.
@@ -265,12 +277,14 @@
 В 3.3 добавлен синтаксис делегации генераторов `yield from`.
 В самых простых случаях его можно описать как:
 
-    def gen1():
-        yield from gen2
+```python
+def gen1():
+    yield from gen2
 
-    def gen1():
-        for val in gen2:
-            yield val
+def gen1():
+    for val in gen2:
+        yield val
+```
 
 Но он также пробрасывает переданные извне значение в подгенератор, а также корректно обрабатывает исключения
 и таким образом может заменить несколько десятков строк кода.
@@ -291,12 +305,14 @@ C 3.3 в стандартную библиотеку встроен venv - со�
 ### pathlib
 В 3.4 добавлена библиотека для удобной работы с путями:
 
-    >>> p = Path('/etc')
-    >>> q = p / 'init.d' / 'reboot'
-    >>> q
-    PosixPath('/etc/init.d/reboot')
-    >>> q.resolve()
-    PosixPath('/etc/rc.d/init.d/halt')
+```python
+>>> p = Path('/etc')
+>>> q = p / 'init.d' / 'reboot'
+>>> q
+PosixPath('/etc/init.d/reboot')
+>>> q.resolve()
+PosixPath('/etc/rc.d/init.d/halt')
+```
 
 ### asyncio
 TODO 3.4
@@ -313,8 +329,10 @@ TODO 3.5
 ### Аннотации
 В 3.0 добавлены аннотации аргументов и возврата функций:
 
-    def haul(item: Haulable, *vargs: PackAnimal) -> Distance:
-        ...
+```python
+def haul(item: Haulable, *vargs: PackAnimal) -> Distance:
+    ...
+```
 
 Они ничего не делают и просто хранятся как поля функции.
 
@@ -323,10 +341,12 @@ TODO 3.5
 ### typing
 В 3.5 при помощи аннотаций добавлен модуль typing со стандартным API для описания типов аргументов и возврата функций:
 
-    T = TypeVar('T', int, float)
+```python
+T = TypeVar('T', int, float)
 
-    def vec2(x: T, y: T) -> List[T]:
-        return [x, y]
+def vec2(x: T, y: T) -> List[T]:
+    return [x, y]
+```
 
 Он ничего не проверяет, но предоставляет общий для всех сторонних утилит статического анализа синтаксис типизации.
 
