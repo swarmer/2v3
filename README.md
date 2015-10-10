@@ -131,28 +131,22 @@ super().__init__()
 class AnswerMeta(type):
     @staticmethod
     def __new__(cls, name, bases, namespace, **kwargs):
-        print('__new__ called with kwargs: %s' % kwargs)
         return super().__new__(cls, name, bases, namespace)
 
     def __init__(self, name, bases, namespace, **kwargs):
-        print('__init__ called with kwargs: %s' % kwargs)
         super().__init__(name, bases, namespace)
 
     @staticmethod
-    def __prepare__(name, bases, **kwargs):
-        print('__prepare__ called with kwargs: %s' % kwargs)
-        return {'ANSWER': 42}
+    def __prepare__(name, bases, answer):
+        return {'ANSWER': answer}
 
-class Universe(metaclass=AnswerMeta, hello='world'):
+class Universe(metaclass=AnswerMeta, answer=42):
     answer = ANSWER
 
 print(Universe.answer, Universe.ANSWER)
 
 # output:
-__prepare__ called with kwargs: {'hello': 'world'}
-__new__ called with kwargs: {'hello': 'world'}
-__init__ called with kwargs: {'hello': 'world'}
-42 42
+# 42 42
 ```
 
 ### print
