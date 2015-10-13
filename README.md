@@ -202,16 +202,17 @@ print(Universe.answer, Universe.ANSWER)
 Некоторые функции были перемещены или удалены, в частности:
 - `raw_input -> input`, старый `input` удалён.
 - удалён `execfile`
+- удалён `apply`
 - `reduce -> functools.reduce`
-- `reload -> importlib.reload`
+- `reload -> importlib.reload`  
+и т.д.
 
 ### Файловые дескрипторы
 С версии 3.4 новые файловые дескрипторы по умолчанию не наследуются дочерними процессами.
 
 ### Изменены некоторые имена
 `StringIO.StringIO -> io.StringIO`  
-`SimpleHTTPServer -> http.server`  
-`reduce -> functools.reduce`  
+`SimpleHTTPServer -> http.server`
 и т.д.
 
 ### next
