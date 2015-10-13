@@ -208,9 +208,10 @@ print(Universe.answer, Universe.ANSWER)
 ### Файловые дескрипторы
 С версии 3.4 новые файловые дескрипторы по умолчанию не наследуются дочерними процессами.
 
-### Переименованы некоторые классы и модули
-`StringIO.StringIO` -> `io.StringIO`
-`SimpleHTTPServer` -> `http.server`
+### Изменены некоторые имена
+`StringIO.StringIO -> io.StringIO`  
+`SimpleHTTPServer -> http.server`  
+`reduce -> functools.reduce`  
 и т.д.
 
 ### next
