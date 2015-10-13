@@ -218,9 +218,11 @@ print(Universe.answer, Universe.ANSWER)
 `SimpleHTTPServer -> http.server`
 и т.д.
 
-### next
+### Специальные методы
 `iterator.next() -> iterator.__next__()`  
 Глобальная функция `next` всё так же работает в обеих версиях.
+
+`__nonzero__ -> __bool__`
 
 
 ## Добавлено
